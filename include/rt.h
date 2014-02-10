@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 11:36:04 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/05 16:46:02 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/10 15:36:00 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,15 @@
 # define W_WIN				1024
 # define KEY_ESC			65307
 # define PI					3.14159265359
+# define FOV				60
 
 typedef struct s_env		t_env;
 typedef struct s_img		t_img;
 typedef struct s_point		t_point;
 typedef struct s_scene		t_scene;
 typedef struct s_object		t_object;
+typedef struct s_ray		t_ray;
+typedef struct s_vector		t_vector;
 
 struct						s_env
 {
@@ -80,6 +83,19 @@ struct						s_object
 	t_object				*next_object;
 };
 
+struct						s_vector
+{
+	int						x;
+	int						y;
+	int						z;
+};
+
+struct						s_ray
+{
+	t_vector				*o;
+	t_vector				*d;
+};
+
 void						display_error(int code);
 void						mlx_pixel_put_to_image(t_env *e, t_point *point);
 t_env						*ini_env(t_env *e);
@@ -91,7 +107,7 @@ int							ini_scene_and_object(t_env *e, char *str);
 int							get_type(char *str);
 t_object					*get_object(t_env *e, int fd);
 int							get_scene(t_env *e, int fd);
-int							ray_tracing(t_env *e, t_point *point, int x, int y);
+int							ray_tracing(t_env *e, t_point *point);
 float						ft_pow(float nb, float n);
 
 #endif

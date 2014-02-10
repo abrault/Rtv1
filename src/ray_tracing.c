@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 18:20:49 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/05 17:12:19 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/10 17:59:11 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,63 +14,71 @@
 #include <stdlib.h>
 #include <math.h>
 
-int				find_sphere(t_env *e, float *dir, int x, int y)
+static t_vector	*get_vector_u(t_env *e)
 {
-	float	d;
-	(void)e;
-	(void)dir;
+	t_vector	*vector_u;
 
-	d = 1 + 2 * (x / W_WIN - 0.5) + 2 * (y / H_WIN - 0.5);
-	d = d / ((d < 0) ? -d : d);
+	vector_u = malloc(sizeof(t_vector));
+	vector_u->x = 0 - e->scene->x;
+	vector_u->y = 0 - e->scene->y;
+	vector_u->z = 0 - e->scene->z;
+	return (vector_u);
+}
+
+static t_vector	*scalaire(t_vector *u, t_vector *h)
+{
+	t_vector	*d;
+
+	d = malloc(sizeof(t_vector));
+	d->x = u->y * h->z - u->z * h->y;
+	d->y = u->z * h->x - u->x * h->z;
+	d->z = u->x * h->y - u->y * h->x;
 	return (d);
 }
 
-int				find_cylindre(t_env *e, float *dir)
+static t_vector	*get_vector_hg(t_env *e, t_vector *u, t_vector *d, t_vector *h)
 {
-	(void)e;
-	(void)dir;
-	return (0);
+	t_vector	*pos_hg;
+
+	pos_hg = malloc(sizeof(t_vector));
+	pos_hg->x = e->scene->x + 1 * u->x + 0.35 / 2 * h->x - 0.5 / 2 * d->x;
+	pos_hg->y = e->scene->y + 1 * u->x + 0.35 / 2 * h->y - 0.5 / 2 * d->y;
+	pos_hg->x = e->scene->x + 1 * u->z + 0.35 / 2 * h->z - 0.5 / 2 * d->z;
+	return (pos_hg);
 }
 
-static float	*get_dir(t_env *e, int z, int y)
+static t_vector	*get_vector_dir(t_env *e, t_vector *hg, t_vector *d, t_point *p)
 {
-	float	*vector;
+	t_vector	*dir;
 
-	vector = malloc(sizeof(char) * 3);
-	(void)z;
-	(void)y;
-	(void)e;
-	return (vector);
+	dir = malloc(sizeof(t_vector));
+	dir->x = (hg->x - e->scene->x) + d->x * 0.5 / W_WIN * p->x - 0 * 0.35
+		/ H_WIN * p->y;
+	dir->y = (hg->y - e->scene->x) + d->y * 0.5 / W_WIN * p->x - 1 * 0.35
+		/ H_WIN * p->y;
+	dir->z = (hg->z - e->scene->z) + d->z * 0.5 / W_WIN * p->x - 0 * 0.35
+		/ H_WIN * p->y;
+	return (dir);
 }
 
-static int		find_inter(t_env *e, float *dir, int x, int y)
+int				ray_tracing(t_env *e, t_point *point)
 {
-	int		ret;
+	t_vector	*vector_u;
+	t_vector	*vector_d;
+	t_vector	*vector_h;
+	t_vector	*vector_hg;
+	t_vector	*vector_dir;
 
-	ret = 0;
-	if (e->object->type == 1)
-		ret = find_sphere(e, dir, x, y);
-	else if (e->object->type == 2)
-		ret = find_cylindre(e, dir);
-	return (ret);
-}
-
-int				ray_tracing(t_env *e, t_point *point, int x, int y)
-{
-	float		*dir;
-	t_object	*ptr_obj;
-
-	dir = get_dir(e, x, y);
-	ptr_obj = e->object;
-	while (e->object)
-	{
-		if (find_inter(e, dir, x, y))
-			point->red = 255;
-		else
-			point->red = 0;
-		e->object = e->object->next_object;
-	}
-	point->green = 0;
-	point->blue = 0;
+	/* Vecteur U  */
+	vector_u = get_vector_u(e);
+	vector_h = malloc(sizeof(t_vector));
+	/* Vecteur UP */
+	vector_h->x = 0;
+	vector_h->y = 1;
+	vector_h->z = 0;
+	/* Vecteur D */
+	vector_d = scalaire(vector_u, vector_h);
+	vector_hg = get_vector_hg(e, vector_u, vector_d, vector_h);
+	vector_dir = get_vector_dir(e, vector_hg, vector_d, point);
 	return (0);
 }
