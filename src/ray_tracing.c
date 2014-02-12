@@ -6,13 +6,14 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 18:20:49 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/10 17:59:11 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/12 13:31:47 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdio.h>
 
 static t_vector	*get_vector_u(t_env *e)
 {
@@ -68,7 +69,10 @@ int				ray_tracing(t_env *e, t_point *point)
 	t_vector	*vector_h;
 	t_vector	*vector_hg;
 	t_vector	*vector_dir;
+	int			t;
 
+	/* Coef */
+	t = 2000;
 	/* Vecteur U  */
 	vector_u = get_vector_u(e);
 	vector_h = malloc(sizeof(t_vector));
@@ -80,5 +84,14 @@ int				ray_tracing(t_env *e, t_point *point)
 	vector_d = scalaire(vector_u, vector_h);
 	vector_hg = get_vector_hg(e, vector_u, vector_d, vector_h);
 	vector_dir = get_vector_dir(e, vector_hg, vector_d, point);
+
+	printf("%f_", (e->object->x - e->scene->x) * vector_dir->x);
+	printf("%f_", (e->object->y - e->scene->y) * vector_dir->y);
+	printf("%f  ", (e->object->z - e->scene->z) * vector_dir->z);
+	free(vector_u);
+	free(vector_d);
+	free(vector_h);
+	free(vector_hg);
+	free(vector_dir);
 	return (0);
 }

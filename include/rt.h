@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 11:36:04 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/10 15:36:00 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/12 13:23:16 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ struct						s_object
 
 struct						s_vector
 {
-	int						x;
-	int						y;
-	int						z;
+	float					x;
+	float					y;
+	float					z;
 };
 
 struct						s_ray
