@@ -6,7 +6,7 @@
 #    By: abrault <abrault@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/01/02 13:50:21 by abrault           #+#    #+#              #
-#    Updated: 2014/02/10 17:57:55 by abrault          ###   ########.fr        #
+#    Updated: 2014/02/12 18:47:35 by abrault          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRC = src/main.c \
 	  src/draw_image.c \
 	  src/scene.c \
 	  src/ray_tracing.c \
-	  src/tools.c
+	  src/tools.c \
+	  src/find_inter.c
 
 LIB = libft/libft.a
 

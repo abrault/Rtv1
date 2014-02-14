@@ -1,42 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_image.c                                       :+:      :+:    :+:   */
+/*   find_inter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/01/29 12:50:22 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/14 12:32:15 by abrault          ###   ########.fr       */
+/*   Created: 2014/02/12 18:39:33 by abrault           #+#    #+#             */
+/*   Updated: 2014/02/14 12:32:17 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt.h>
 #include <stdio.h>
 
-int		draw_image(t_env *e)
+float	carre(float i)
 {
-	int			x;
-	int			y;
-	t_point		point;
-	float		i;
+	return (i * i);
+}
 
-	y = 0;
-	while (y < H_WIN)
-	{
-		x = 0;
-		while (x < W_WIN)
-		{
-			point.x = x;
-			point.y = y;
-			i = ray_tracing(e, &point);
-			if (i >= -0.2)
-				point.red = 255;
-			else
-				point.red = 0;
-			mlx_pixel_put_to_image(e, &point);
-			x++;
-		}
-		y++;
-	}
-	return (0);
+int		find_inter(t_env *e, t_vector *dir, t_object *o)
+{
+	float	t;
+	float	a;
+	float	b;
+	float	c;
+
+	a = carre(dir->x) + carre(dir->y) + carre(dir->z);
+	b = 2 * (dir->x * (e->scene->x - o->x) + dir->y * (e->scene->y - o->y) +
+	dir->z * (e->scene->z - o->z));
+	c = carre(e->scene->x - o->x) + carre(e->scene->y - o->y) +
+		carre(e->scene->z - o->z) - carre(o->scale);
+	t = carre(b) - 4 * a * c;
+	return (t);
 }

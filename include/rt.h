@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 11:36:04 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/12 13:23:16 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/13 21:51:05 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ struct						s_img
 
 struct						s_scene
 {
-	float					x;
-	float					y;
-	float					z;
-	int					angle;
+	int						x;
+	int						y;
+	int						z;
+	int						angle;
 };
 
 struct						s_object
@@ -90,12 +90,6 @@ struct						s_vector
 	float					z;
 };
 
-struct						s_ray
-{
-	t_vector				*o;
-	t_vector				*d;
-};
-
 void						display_error(int code);
 void						mlx_pixel_put_to_image(t_env *e, t_point *point);
 t_env						*ini_env(t_env *e);
@@ -109,5 +103,7 @@ t_object					*get_object(t_env *e, int fd);
 int							get_scene(t_env *e, int fd);
 int							ray_tracing(t_env *e, t_point *point);
 float						ft_pow(float nb, float n);
+float						carre(float i);
+int							find_inter(t_env *e, t_vector *dir, t_object *o);
 
 #endif

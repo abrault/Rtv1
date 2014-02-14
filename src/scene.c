@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 13:45:38 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/05 16:50:33 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/13 21:40:59 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <stdio.h>
 
 int				ini_scene_and_object(t_env *e, char *str)
 {
@@ -43,15 +44,16 @@ int				ini_scene_and_object(t_env *e, char *str)
 int				get_scene(t_env *e, int fd)
 {
 	char		*line;
+	char		*ptr;
 
 	get_next_line(fd, &line);
-	free(line);
+	ptr = line;
 	e->scene->x = ft_atoi(ft_strtok(line, ':'));
 	e->scene->y = ft_atoi(ft_strtok(NULL, ':'));
 	e->scene->z = ft_atoi(ft_strtok(NULL, ':'));
 	get_next_line(fd, &line);
 	e->scene->angle = ft_atoi(line);
-	free(line);
+	free(ptr);
 	return (1);
 }
 
@@ -59,19 +61,20 @@ t_object		*get_object(t_env *e, int fd)
 {
 	t_object	*object;
 	char		*line;
+	char		*ptr;
 
 	object = malloc(sizeof(t_object));
 	get_next_line(fd, &line);
+	ptr = line;
 	object->type = get_type(line);
 	get_next_line(fd, &line);
-	free(line);
 	object->x = ft_atoi(ft_strtok(line, ':'));
 	object->y = ft_atoi(ft_strtok(NULL, ':'));
 	object->z = ft_atoi(ft_strtok(NULL, ':'));
 	get_next_line(fd, &line);
 	object->scale = ft_atoi(line);
 	object->next_object = e->object;
-	free(line);
+	free(ptr);
 	return (object);
 }
 
