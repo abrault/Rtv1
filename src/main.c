@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 11:52:22 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/14 12:32:14 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/14 17:56:05 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,6 @@ int		main(int ac, char **av)
 	{
 		e = ini_env(e);
 		ini_scene_and_object(e, av[1]);
-
-		e->scene->x = -2;
-		e->scene->y = 0;
-		e->scene->z = 0;
-
 		mlx_expose_hook(e->win, &expose_hook, e);
 		mlx_hook(e->win, KeyPress, KeyRelease, &key_hook, e);
 		mlx_loop_hook(e->mlx, loop_hook, e);

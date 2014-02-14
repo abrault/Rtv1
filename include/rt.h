@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 11:36:04 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/13 21:51:05 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/14 17:54:41 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ struct						s_object
 	int						y;
 	int						z;
 	int						scale;
+	int						r;
+	int						g;
+	int						b;
 	t_object				*next_object;
 };
 
@@ -100,7 +103,7 @@ int							key_hook(int keycode, t_env *e);
 int							ini_scene_and_object(t_env *e, char *str);
 int							get_type(char *str);
 t_object					*get_object(t_env *e, int fd);
-int							get_scene(t_env *e, int fd);
+t_scene						*get_scene(int fd);
 int							ray_tracing(t_env *e, t_point *point);
 float						ft_pow(float nb, float n);
 float						carre(float i);

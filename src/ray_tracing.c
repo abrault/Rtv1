@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 18:20:49 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/14 12:32:12 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/14 16:59:57 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static t_vector	*get_vector_hg(t_env *e, t_vector *u, t_vector *d, t_vector *h)
 	float		height;
 
 	dist = 1;
-	width = 0.5;
-	height = 0.35;
+	width = 0.32;
+	height = 0.5;
 	pos_hg = malloc(sizeof(t_vector));
 	pos_hg->x = e->scene->x + dist * u->x + (height / 2) * h->x - (width / 2)
 		* d->x;
@@ -60,13 +60,17 @@ static t_vector	*get_vector_hg(t_env *e, t_vector *u, t_vector *d, t_vector *h)
 static t_vector	*get_vector_dir(t_env *e, t_vector *hg, t_vector *d, t_point *p)
 {
 	t_vector	*dir;
+	float		width;
+	float		height;
 
+	width = 0.32;
+	height = 0.5;
 	dir = malloc(sizeof(t_vector));
-	dir->x = (hg->x - e->scene->x) + d->x * 0.5 / W_WIN * p->x - 0 * 0.35
+	dir->x = (hg->x - e->scene->x) + d->x * width / W_WIN * p->x - 0 * height
 		/ H_WIN * p->y;
-	dir->y = (hg->y - e->scene->y) + d->y * 0.5 / W_WIN * p->x - 1 * 0.35
+	dir->y = (hg->y - e->scene->y) + d->y * width / W_WIN * p->x - 1 * height
 		/ H_WIN * p->y;
-	dir->z = (hg->z - e->scene->z) + d->z * 0.5 / W_WIN * p->x - 0 * 0.35
+	dir->z = (hg->z - e->scene->z) + d->z * width / W_WIN * p->x - 0 * height
 		/ H_WIN * p->y;
 	return (dir);
 }

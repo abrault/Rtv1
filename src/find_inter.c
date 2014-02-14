@@ -6,12 +6,12 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/02/12 18:39:33 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/14 12:32:17 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/14 15:06:59 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <rt.h>
-#include <stdio.h>
+#include <math.h>
 
 float	carre(float i)
 {
@@ -24,6 +24,7 @@ int		find_inter(t_env *e, t_vector *dir, t_object *o)
 	float	a;
 	float	b;
 	float	c;
+	float	result[2];
 
 	a = carre(dir->x) + carre(dir->y) + carre(dir->z);
 	b = 2 * (dir->x * (e->scene->x - o->x) + dir->y * (e->scene->y - o->y) +
@@ -31,5 +32,13 @@ int		find_inter(t_env *e, t_vector *dir, t_object *o)
 	c = carre(e->scene->x - o->x) + carre(e->scene->y - o->y) +
 		carre(e->scene->z - o->z) - carre(o->scale);
 	t = carre(b) - 4 * a * c;
+	if (t < 0.1 && t > -0.1)
+		return (0);
+	else if (t <= -0.1)
+		return (-1);
+	result[0] = (-b - sqrt(t)) / 2 * a;
+	result[1] = (-b + sqrt(t)) / 2 * a;
+	if (result[0] > result[1])
+		return (result[1]);
 	return (t);
 }

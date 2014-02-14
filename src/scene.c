@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 13:45:38 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/13 21:40:59 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/14 17:55:58 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int				ini_scene_and_object(t_env *e, char *str)
 		if (line[0] != '#' || line[0] == '\0')
 		{
 			if (ft_strstr(line, "scene"))
-				get_scene(e, fd);
+				e->scene = get_scene(fd);
 			else if (ft_strstr(line, "object"))
 				e->object = get_object(e, fd);
 		}
@@ -41,20 +41,22 @@ int				ini_scene_and_object(t_env *e, char *str)
 	return (1);
 }
 
-int				get_scene(t_env *e, int fd)
+t_scene			*get_scene(int fd)
 {
+	t_scene		*scene;
 	char		*line;
 	char		*ptr;
 
+	scene = malloc(sizeof(t_scene));
 	get_next_line(fd, &line);
 	ptr = line;
-	e->scene->x = ft_atoi(ft_strtok(line, ':'));
-	e->scene->y = ft_atoi(ft_strtok(NULL, ':'));
-	e->scene->z = ft_atoi(ft_strtok(NULL, ':'));
+	scene->x = ft_atoi(ft_strtok(line, ':'));
+	scene->y = ft_atoi(ft_strtok(NULL, ':'));
+	scene->z = ft_atoi(ft_strtok(NULL, ':'));
 	get_next_line(fd, &line);
-	e->scene->angle = ft_atoi(line);
+	scene->angle = ft_atoi(line);
 	free(ptr);
-	return (1);
+	return (scene);
 }
 
 t_object		*get_object(t_env *e, int fd)
@@ -73,6 +75,10 @@ t_object		*get_object(t_env *e, int fd)
 	object->z = ft_atoi(ft_strtok(NULL, ':'));
 	get_next_line(fd, &line);
 	object->scale = ft_atoi(line);
+	get_next_line(fd, &line);
+	object->r = ft_atoi(ft_strtok(line, ':'));
+	object->g = ft_atoi(ft_strtok(NULL, ':'));
+	object->b = ft_atoi(ft_strtok(NULL, ':'));
 	object->next_object = e->object;
 	free(ptr);
 	return (object);
