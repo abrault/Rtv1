@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 13:45:38 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/14 17:55:58 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/16 17:04:49 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <stdio.h>
 
 int				ini_scene_and_object(t_env *e, char *str)
 {
@@ -45,17 +44,13 @@ t_scene			*get_scene(int fd)
 {
 	t_scene		*scene;
 	char		*line;
-	char		*ptr;
 
 	scene = malloc(sizeof(t_scene));
 	get_next_line(fd, &line);
-	ptr = line;
 	scene->x = ft_atoi(ft_strtok(line, ':'));
 	scene->y = ft_atoi(ft_strtok(NULL, ':'));
 	scene->z = ft_atoi(ft_strtok(NULL, ':'));
-	get_next_line(fd, &line);
-	scene->angle = ft_atoi(line);
-	free(ptr);
+	free(line);
 	return (scene);
 }
 
@@ -63,24 +58,25 @@ t_object		*get_object(t_env *e, int fd)
 {
 	t_object	*object;
 	char		*line;
-	char		*ptr;
 
 	object = malloc(sizeof(t_object));
 	get_next_line(fd, &line);
-	ptr = line;
 	object->type = get_type(line);
+	free(line);
 	get_next_line(fd, &line);
 	object->x = ft_atoi(ft_strtok(line, ':'));
 	object->y = ft_atoi(ft_strtok(NULL, ':'));
 	object->z = ft_atoi(ft_strtok(NULL, ':'));
+	free(line);
 	get_next_line(fd, &line);
 	object->scale = ft_atoi(line);
+	free(line);
 	get_next_line(fd, &line);
 	object->r = ft_atoi(ft_strtok(line, ':'));
 	object->g = ft_atoi(ft_strtok(NULL, ':'));
 	object->b = ft_atoi(ft_strtok(NULL, ':'));
 	object->next_object = e->object;
-	free(ptr);
+	free(line);
 	return (object);
 }
 
@@ -90,5 +86,7 @@ int				get_type(char *str)
 		return (1);
 	if (ft_strcmp(str, "cylindre") == 0)
 		return (2);
+	if (ft_strcmp(str, "plane") == 0)
+		return (3);
 	return (0);
 }

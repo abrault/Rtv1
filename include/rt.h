@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 11:36:04 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/16 09:00:22 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/16 17:42:55 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@
 # include <X11/X.h>
 # include <X11/Xlib.h>
 
-# define H_WIN				960
-# define W_WIN				1280
+# define H_WIN				960.0
+# define W_WIN				1280.0
 # define KEY_ESC			65307
 # define PI					3.14159265359
 # define FOV				60
+# define V_WIDTH			0.5
+# define V_DIST				1.0
+# define V_HEIGHT			(V_DIST / 2.0) / (W_WIN / H_WIN)
 
 typedef struct s_env		t_env;
 typedef struct s_img		t_img;
@@ -71,7 +74,6 @@ struct						s_scene
 	int						x;
 	int						y;
 	int						z;
-	int						angle;
 };
 
 struct						s_object
@@ -108,6 +110,6 @@ t_scene						*get_scene(int fd);
 t_vector					*ray_tracing(t_env *e, t_point *point);
 float						ft_pow(float nb, float n);
 float						carre(float i);
-int							find_inter(t_env *e, t_vector *dir, t_object *o);
+float						find_inter(t_scene *o, t_vector *dir, t_object *ob);
 
 #endif
