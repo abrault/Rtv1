@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 18:20:49 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/16 17:42:46 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/16 19:29:34 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ t_vector		*ray_tracing(t_env *e, t_point *point)
 	vector_dir->x /= n;
 	vector_dir->y /= n;
 	vector_dir->z /= n;
-	e->t = find_inter(e->scene, vector_dir, e->object);
+	if (e->object->type == 1)
+		e->t = find_inter_sphere(e->scene, vector_dir, e->object);
+	else if (e->object->type == 3)
+		e->t = find_inter_plane(e->scene, vector_dir, e->object);
 	if (e->t < 0)
 		return (NULL);
 	free(vector_hg);

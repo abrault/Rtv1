@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/02/12 18:39:33 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/16 17:35:32 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/16 21:06:29 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ float	carre(float i)
 	return (i * i);
 }
 
-float	find_inter(t_scene *o, t_vector *dir, t_object *ob)
+float	find_inter_sphere(t_scene *o, t_vector *dir, t_object *ob)
 {
 	float	t;
 	float	a;
@@ -41,4 +41,25 @@ float	find_inter(t_scene *o, t_vector *dir, t_object *ob)
 	if (result[0] > result[1])
 		return (result[1]);
 	return (result[0]);
+}
+
+static float	get_d(t_object *ob)
+{
+	return (-((ob->v_normal->x * ob->x) + (ob->v_normal->y * ob->y) +
+			(ob->v_normal->z * ob->z)));
+}
+
+float	find_inter_plane(t_scene *o, t_vector *dir, t_object *ob)
+{
+	float		t;
+	t_vector	*v;
+	float		d;
+
+	d = get_d(ob);
+	v = ob->v_normal;
+	t = -(v->x * o->x + v->y * o->y + v->z * o->z + d);
+	t /= (v->x * dir->x + v->y * dir->y + v->z * dir->z);
+	if (t >= 1 && t < 4000)
+		return (t);
+	return (-1);
 }

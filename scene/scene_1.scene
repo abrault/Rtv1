@@ -5,7 +5,7 @@
 ############################
 
 scene:
-0:5:-10
+3:1:-10
 0
 
 ############################
@@ -15,23 +15,135 @@ scene:
 # scale                    #
 ############################
 
+#sphere cote gauche
 object:
 sphere
-0:2:50
+3:1:5
 1
-255:0:0
+0:0:255
+0:0:0
+
+
+#sphere haut cote gauche
+object:
+sphere
+0:2:0
+1
+0:0:255
+0:0:0
 
 object:
 sphere
-0:1:50
-1
-0:255:0
-
-object:
-sphere
-0:0:50
+0:2:5
 1
 255:255:0
+0:0:0
+
+object:
+sphere
+0:2:10
+1
+0:0:255
+0:1:0
+
+#sphere haut cote droit
+object:
+sphere
+6:2:0
+1
+0:0:255
+0:0:0
+
+object:
+sphere
+6:2:5
+1
+255:255:0
+0:0:0
+
+object:
+sphere
+6:2:10
+1
+0:0:255
+0:1:0
 
 
+
+
+#sphere bas cote gauche
+object:
+sphere
+0:0:0
+1
+0:0:255
+0:0:0
+
+object:
+sphere
+0:0:5
+1
+255:255:0
+0:0:0
+
+object:
+sphere
+0:0:10
+1
+0:0:255
+0:1:0
+
+#sphere bas cote droit
+object:
+sphere
+6:0:0
+1
+0:0:255
+0:0:0
+
+object:
+sphere
+6:0:5
+1
+255:255:0
+0:0:0
+
+object:
+sphere
+6:0:10
+1
+0:0:255
+0:1:0
+
+#plan top
+object:
+plane
+0:2:0
+1
+205:205:205
+0:1:0
+
+#plan bot
+object:
+plane
+0:0:0
+1
+205:205:205
+0:1:0
+
+#plan right
+object:
+plane
+0:0:0
+1
+150:150:150
+1:0:0
+
+#plan left
+object:
+plane
+6:0:0
+1
+150:150:150
+1:0:0
 

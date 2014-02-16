@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 11:36:04 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/16 17:42:55 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/16 19:42:41 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # define H_WIN				960.0
 # define W_WIN				1280.0
 # define KEY_ESC			65307
-# define PI					3.14159265359
-# define FOV				60
 # define V_WIDTH			0.5
 # define V_DIST				1.0
 # define V_HEIGHT			(V_DIST / 2.0) / (W_WIN / H_WIN)
@@ -76,6 +74,13 @@ struct						s_scene
 	int						z;
 };
 
+struct						s_vector
+{
+	float					x;
+	float					y;
+	float					z;
+};
+
 struct						s_object
 {
 	char					type;
@@ -87,29 +92,24 @@ struct						s_object
 	int						g;
 	int						b;
 	t_object				*next_object;
+	t_vector				*v_normal;
 };
 
-struct						s_vector
-{
-	float					x;
-	float					y;
-	float					z;
-};
-
-void						display_error(int code);
-void						mlx_pixel_put_to_image(t_env *e, t_point *point);
-t_env						*ini_env(t_env *e);
-int							draw_image(t_env *e);
-int							expose_hook(t_env *e);
-int							loop_hook(t_env *e);
-int							key_hook(int keycode, t_env *e);
-int							ini_scene_and_object(t_env *e, char *str);
-int							get_type(char *str);
-t_object					*get_object(t_env *e, int fd);
-t_scene						*get_scene(int fd);
-t_vector					*ray_tracing(t_env *e, t_point *point);
-float						ft_pow(float nb, float n);
-float						carre(float i);
-float						find_inter(t_scene *o, t_vector *dir, t_object *ob);
+void		display_error(int code);
+void		mlx_pixel_put_to_image(t_env *e, t_point *point);
+t_env		*ini_env(t_env *e);
+int			draw_image(t_env *e);
+int			expose_hook(t_env *e);
+int			loop_hook(t_env *e);
+int			key_hook(int keycode, t_env *e);
+int			ini_scene_and_object(t_env *e, char *str);
+int			get_type(char *str);
+t_object	*get_object(t_env *e, int fd);
+t_scene		*get_scene(int fd);
+t_vector	*ray_tracing(t_env *e, t_point *point);
+float		ft_pow(float nb, float n);
+float		carre(float i);
+float		find_inter_sphere(t_scene *o, t_vector *dir, t_object *ob);
+float		find_inter_plane(t_scene *o, t_vector *dir, t_object *ob);
 
 #endif

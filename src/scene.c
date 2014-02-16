@@ -6,7 +6,7 @@
 /*   By: abrault <abrault@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/29 13:45:38 by abrault           #+#    #+#             */
-/*   Updated: 2014/02/16 17:04:49 by abrault          ###   ########.fr       */
+/*   Updated: 2014/02/16 19:58:10 by abrault          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <stdio.h>
 
 int				ini_scene_and_object(t_env *e, char *str)
 {
@@ -37,6 +38,7 @@ int				ini_scene_and_object(t_env *e, char *str)
 				e->object = get_object(e, fd);
 		}
 	}
+	close(fd);
 	return (1);
 }
 
@@ -52,6 +54,20 @@ t_scene			*get_scene(int fd)
 	scene->z = ft_atoi(ft_strtok(NULL, ':'));
 	free(line);
 	return (scene);
+}
+
+static t_vector	*get_vector_n(int fd)
+{
+	char		*line;
+	t_vector	*v;
+
+	v = malloc(sizeof(t_vector));
+	get_next_line(fd, &line);
+	v->x = ft_atoi(ft_strtok(line, ':'));
+	v->y = ft_atoi(ft_strtok(NULL, ':'));
+	v->z = ft_atoi(ft_strtok(NULL, ':'));
+	free(line);
+	return (v);
 }
 
 t_object		*get_object(t_env *e, int fd)
@@ -76,7 +92,9 @@ t_object		*get_object(t_env *e, int fd)
 	object->g = ft_atoi(ft_strtok(NULL, ':'));
 	object->b = ft_atoi(ft_strtok(NULL, ':'));
 	object->next_object = e->object;
+	printf("%s\n", line);
 	free(line);
+	object->v_normal = get_vector_n(fd);
 	return (object);
 }
 
